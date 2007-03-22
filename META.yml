@@ -1,0 +1,14 @@
+author: Ricardo Signes <rjbs@cpan.org>
+distribution_type: module
+generated_by: Module::Install version 0.64
+license: perl
+name: App-Addex
+no_index: 
+  directory: 
+    - inc
+    - t
+requires: 
+  Getopt::Long::Descriptive: 0.06
+  Mac::Glue: 0
+  Sub::Install: 0.91
+version: 0.001
