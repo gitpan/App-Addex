@@ -12,19 +12,22 @@ App::Addex::Output::Procmail - generate procmail recipes from an address book
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
-  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex/Output/Procmail.pm 31347 2007-04-07T20:51:05.128311Z rjbs  $
+  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex/Output/Procmail.pm 31521 2007-05-05T18:33:48.496827Z rjbs  $
 
 =cut
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 =head1 DESCRIPTION
 
 This plugin produces a file that contains a list of procmail recipes.  For
 any entry with a "folder" field, recipes are produced to deliver all mail from
 its addresses to the given folder.
+
+Forward slashes in the folder name are converted to dots, showing my bias
+toward Courier IMAP.
 
 =head1 METHODS
 
@@ -73,6 +76,8 @@ sub process_entry {
   my ($self, $addex, $entry) = @_;
 
   return unless my $folder = $entry->field('folder');
+
+  $folder =~ tr{/}{.};
 
   my @emails = $entry->emails;
 

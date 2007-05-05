@@ -14,13 +14,13 @@ App::Addex - generate mail tool configuration from an address book
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
-  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex.pm 31345 2007-04-07T20:42:45.994879Z rjbs  $
+  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex.pm 31521 2007-05-05T18:33:48.496827Z rjbs  $
 
 =cut
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 =head1 DESCRIPTION
 
