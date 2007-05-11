@@ -12,7 +12,7 @@ addex - create mail helper files for address book entries
 
 version 0.001
 
-  $Id: /my/cs/projects/App-Addex/trunk/bin/addex 31345 2007-04-07T20:42:45.994879Z rjbs  $
+  $Id: /my/cs/projects/App-Addex/trunk/bin/addex 31603 2007-05-11T02:39:54.898395Z rjbs  $
 
 =cut
 
@@ -26,7 +26,8 @@ your address book.  For more information, consult L<App::Addex>.
 =cut
 
 use App::Addex;
-use Config::Tiny;
+use App::Addex::Config;
+use Config::IniHash ();
 use File::HomeDir;
 use File::Spec;
 use Getopt::Long::Descriptive;
@@ -37,14 +38,7 @@ my ($opt, $usage) = describe_options(
     { default => File::Spec->catfile(File::HomeDir->my_home, '.addex') }   ],
 );
 
-my $config = Config::Tiny->read($opt->{config})
-  or die "couldn't read config file $opt->{config}\n";
-
-die 'illegal section "classes" in config' if exists $config->{classes};
-
-$config->{classes} = delete $config->{_};
-
-$config->{classes}{output} = [ split /,\s*/, $config->{classes}{output} ];
+my $config = App::Addex::Config->read_file($opt->{config});
 
 my $addex = App::Addex->new($config);
 

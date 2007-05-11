@@ -14,7 +14,7 @@ App::Addex::Output::Procmail - generate procmail recipes from an address book
 
 version 0.003
 
-  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex/Output/Procmail.pm 31521 2007-05-05T18:33:48.496827Z rjbs  $
+  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex/Output/Procmail.pm 31604 2007-05-11T02:40:30.740426Z rjbs  $
 
 =cut
 

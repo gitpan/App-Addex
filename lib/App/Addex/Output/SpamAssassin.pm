@@ -14,7 +14,7 @@ App::Addex::Output::SpamAssassin - generate SpamAssassin whitelists from an addr
 
 version 0.002
 
-  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex/Output/SpamAssassin.pm 31347 2007-04-07T20:51:05.128311Z rjbs  $
+  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex/Output/SpamAssassin.pm 31604 2007-05-11T02:40:30.740426Z rjbs  $
 
 =cut
 
