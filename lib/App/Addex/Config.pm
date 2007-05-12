@@ -11,13 +11,13 @@ App::Addex::Config - read the addex config file
 
 =head1 VERSION
 
-version 0.006
+version 0.008
 
-  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex/Config.pm 31604 2007-05-11T02:40:30.740426Z rjbs  $
+  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex/Config.pm 31638 2007-05-12T00:36:16.262022Z rjbs  $
 
 =cut
 
-our $VERSION = '0.006';
+our $VERSION = '0.008';
 
 =head1 DESCRIPTION
 
@@ -51,11 +51,17 @@ sub change_section {
   $self->{data}{ $self->{section} } ||= {};
   return if $self->{__PACKAGE__}{$section};
 
-  eval "require $section" or die;
+  # Consider using Params::Util to validate class name.  -- rjbs, 2007-05-11
+  Carp::croak "invalid section name '$section' in configuration"
+    unless $section =~ /\A[A-Z0-9]+(?:::[A-Z0-9]+)*\z/i;
+  
+  eval "require $section"
+    or Carp::croak "couldn't load plugin $section named on config: $@";
+
   my $conf = $self->{__PACKAGE__}{$section} = {};
 
   if ($section->can('multivalue_args')) {
-    $conf->{multivalue_args} = $section->multivalue_args;
+    $conf->{multivalue_args} = [ $section->multivalue_args ];
   } else {
     $conf->{multivalue_args} = [ ];
   }
@@ -68,7 +74,7 @@ sub set_value {
 
   my $mva = $self->{__PACKAGE__}->{ $self->{section} }->{multivalue_args};
 
-  if (grep { $_ eq $name } @{ $mva || [] }) {
+  if (grep { $_ eq $name } @$mva) {
     $section->{$name} ||= [];
     push @{ $section->{$name} }, $value;
     return;

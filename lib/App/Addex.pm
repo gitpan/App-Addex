@@ -5,8 +5,6 @@ use warnings;
 package App::Addex;
 
 use Carp ();
-# use Encode ();
-# use Unicode::Normalize ();
 
 =head1 NAME
 
@@ -14,13 +12,13 @@ App::Addex - generate mail tool configuration from an address book
 
 =head1 VERSION
 
-version 0.006
+version 0.008
 
-  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex.pm 31604 2007-05-11T02:40:30.740426Z rjbs  $
+  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex.pm 31633 2007-05-11T23:45:59.651564Z rjbs  $
 
 =cut
 
-our $VERSION = '0.006';
+our $VERSION = '0.008';
 
 =head1 DESCRIPTION
 
@@ -43,7 +41,7 @@ it might just get plugins.
 
 This method returns a new Addex.
 
-Valid paramters are:
+Valid parameters are:
 
   classes    - a hashref of plugin/class pairs, described below
 
@@ -87,7 +85,10 @@ sub new {
 sub _initialize_plugin {
   my ($self, $class, $arg) = @_;
 
+  # in most cases, this won't be needed, since the App::Addex::Config will have
+  # loaded plugins as a side effect, but let's be cautious -- rjbs, 2007-05-10
   eval "require $class" or die;
+
   return $class->new($arg ? $arg : {});
 }
 
@@ -117,7 +118,7 @@ sub output_plugins {
   App::Addex->new({ ... })->run;
 
 This method performs all the work expected of an Addex: it iterates through the
-entries, writing the relevant information to the relevant files.
+entries, invoking the output plugins for each one.
 
 =cut
 

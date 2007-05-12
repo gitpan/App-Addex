@@ -3,8 +3,7 @@ use strict;
 use warnings;
 
 package App::Addex::Output::Mutt;
-
-use Carp ();
+use base qw(App::Addex::Output::ToFile);
 
 =head1 NAME
 
@@ -12,13 +11,13 @@ App::Addex::Output::Mutt - generate mutt configuration from an address book
 
 =head1 VERSION
 
-version 0.002
+version 0.008
 
-  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex/Output/Mutt.pm 31604 2007-05-11T02:40:30.740426Z rjbs  $
+  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex/Output/Mutt.pm 31631 2007-05-11T23:33:16.545786Z rjbs  $
 
 =cut
 
-our $VERSION = '0.002';
+our $VERSION = '0.008';
 
 =head1 DESCRIPTION
 
@@ -34,41 +33,15 @@ to that folder and a mailboxes line is created for the folder.  If the entry
 has a "sig" value, a send-hook is created to use that signature when composing
 a message to the entry.
 
+=head1 CONFIGURATION
+
+The valid configuration parameters for this plugin are:
+
+  filename - the filename to which to write the Mutt configuration
+
 =head1 METHODS
 
-=head2 new
-
-  my $addex = App::Addex::Output::Mutt->new(\%arg);
-
-This method returns a new Addex mutt outputter.
-
-Valid arguments are:
-
-  filename - the file to which to write mutt configuration
-
-=cut
-
-sub new {
-  my ($class, $arg) = @_;
-
-  Carp::croak "no filename argument given for $class" unless $arg->{filename};
-
-  my $self = bless {} => $class;
-
-  open my $fh, '>', $arg->{filename}
-    or Carp::croak "couldn't open output file $arg->{filename}: $!";
-
-  $self->{fh} = $fh;
-
-  return $self;
-}
-
-sub _output {
-  my ($self, $line) = @_;
-
-  print { $self->{fh} } "$line\n"
-    or Carp::croak "couldn't write to output file: $!";
-}
+App::Addex::Output::Mutt is a App::Addex::Output::ToFile subclass, and inherits its methods.
 
 =head2 process_entry
 
@@ -97,26 +70,39 @@ sub process_entry {
 
   if ($folder) {
     $folder =~ tr{/}{.};
-    $self->_output("save-hook ~f$_ =$folder") for @emails;
-    $self->_output("mailboxes =$folder")
+    $self->output("save-hook ~f$_ =$folder") for @emails;
+    $self->output("mailboxes =$folder")
       unless $self->{_saw_folder}{$folder}++;
   }
 
   if ($sig) {
-    $self->_output(qq{send-hook ~t$_ set signature="~/.sig/$sig"})
+    $self->output(qq{send-hook ~t$_ set signature="~/.sig/$sig"})
       for @emails;
   }
 
   my @aliases
     = grep { defined $_ } map { $self->_aliasify($_) } $entry->nick, $name;
 
-  $self->_output("alias $_ $emails[0] ($name)") for @aliases;
+  $self->output("alias $_ $emails[0] ($name)") for @aliases;
 
   # It's not that you're expected to -use- these aliases, but they allow
   # mutt's reverse_alias to do its thing.
   if (@emails > 1) {
+    my %label_count;
+
+    if (defined(my $label = $emails[0]->label)) {
+      $self->output("alias $_-$label $emails[0] ($name)") for @aliases;
+      $label_count{$label} = 1;
+    }
+
     for my $i (1 .. $#emails) {
-      $self->_output("alias $aliases[0]-$i $emails[$i] ($name)");
+      my $label = $emails[$i]->label;
+      $label = '' unless defined $label;
+      $label_count{$label}++;
+      my $alias = length $label ? "$aliases[0]-$label" : $aliases[0];
+      $alias .= "-" . ($label_count{$label} - 1) if $label_count{$label} > 1;
+
+      $self->output("alias $alias $emails[$i] ($name)");
     }
   }
 }
