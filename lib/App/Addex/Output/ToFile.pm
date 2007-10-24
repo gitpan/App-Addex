@@ -3,6 +3,7 @@ use strict;
 use warnings;
 
 package App::Addex::Output::ToFile;
+use Carp ();
 
 =head1 NAME
 
@@ -10,13 +11,11 @@ App::Addex::Output::ToFile - base class for output plugins that write to files
 
 =head1 VERSION
 
-version 0.008
-
-  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex/Output/ToFile.pm 31631 2007-05-11T23:33:16.545786Z rjbs  $
+version 0.009
 
 =cut
 
-our $VERSION = '0.008';
+our $VERSION = '0.009';
 
 =head1 DESCRIPTION
 

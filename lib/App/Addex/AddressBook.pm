@@ -14,13 +14,11 @@ App::Addex::AddressBook - the address book that addex will consult
 
 =head1 VERSION
 
-version 0.002
-
-  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex/AddressBook.pm 31631 2007-05-11T23:33:16.545786Z rjbs  $
+version 0.009
 
 =cut
 
-our $VERSION = '0.002';
+our $VERSION = '0.009';
 
 =head1 METHODS
 

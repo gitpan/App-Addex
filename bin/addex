@@ -12,7 +12,7 @@ addex - create mail helper files for address book entries
 
 version 0.001
 
-  $Id: /my/cs/projects/App-Addex/trunk/bin/addex 31603 2007-05-11T02:39:54.898395Z rjbs  $
+  $Id$
 
 =cut
 

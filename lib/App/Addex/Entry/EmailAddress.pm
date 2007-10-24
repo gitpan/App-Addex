@@ -10,13 +10,11 @@ App::Addex::Entry::EmailAddress - an address book entry's email address
 
 =head1 VERSION
 
-version 0.007
-
-  $Id: /my/cs/projects/App-Addex/trunk/lib/App/Addex/Entry/EmailAddress.pm 31631 2007-05-11T23:33:16.545786Z rjbs  $
+version 0.009
 
 =cut
 
-our $VERSION = '0.007';
+our $VERSION = '0.009';
 
 =head1 SYNOPSIS
 
