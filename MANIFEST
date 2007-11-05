@@ -14,6 +14,7 @@ lib/App/Addex/AddressBook.pm
 lib/App/Addex/Config.pm
 lib/App/Addex/Entry.pm
 lib/App/Addex/Entry/EmailAddress.pm
+lib/App/Addex/Output.pm
 lib/App/Addex/Output/Mutt.pm
 lib/App/Addex/Output/Procmail.pm
 lib/App/Addex/Output/SpamAssassin.pm
