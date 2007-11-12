@@ -19,4 +19,4 @@ requires:
   Getopt::Long::Descriptive: 0.06
   Mixin::ExtraFields: 0.005
   Mixin::ExtraFields::Param: 0
-version: 0.011
+version: 0.012

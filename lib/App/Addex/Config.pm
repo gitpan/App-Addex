@@ -11,11 +11,11 @@ App::Addex::Config - read the addex config file
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =cut
 
-our $VERSION = '0.011';
+our $VERSION = '0.012';
 
 =head1 DESCRIPTION
 
@@ -68,9 +68,10 @@ sub change_section {
 sub set_value {
   my ($self, $name, $value) = @_;
 
-  my $section = $self->{data}{ $self->{section} } ||= {};
+  my $sec_name = $self->current_section;
+  my $section = $self->{data}{ $sec_name } ||= {};
 
-  my $mva = $self->{__PACKAGE__}->{ $self->{section} }->{multivalue_args};
+  my $mva = $self->{__PACKAGE__}->{ $sec_name }->{multivalue_args};
 
   if (grep { $_ eq $name } @$mva) {
     $section->{$name} ||= [];
@@ -79,8 +80,7 @@ sub set_value {
   }
 
   if (exists $section->{$name}) {
-    Carp::croak
-      "multiple values given for property $name in section $self->{section}";
+    Carp::croak "multiple values given for property $name in section $sec_name";
   }
 
   $section->{$name} = $value;
