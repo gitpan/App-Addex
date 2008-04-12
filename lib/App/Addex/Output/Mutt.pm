@@ -1,9 +1,10 @@
-#!/usr/bin/perl
 use strict;
 use warnings;
 
 package App::Addex::Output::Mutt;
 use base qw(App::Addex::Output::ToFile);
+
+use Text::Unidecode ();
 
 =head1 NAME
 
@@ -11,11 +12,11 @@ App::Addex::Output::Mutt - generate mutt configuration from an address book
 
 =head1 VERSION
 
-version 0.014
+version 0.015
 
 =cut
 
-our $VERSION = '0.014';
+our $VERSION = '0.015';
 
 =head1 DESCRIPTION
 
@@ -35,11 +36,27 @@ a message to the entry.
 
 The valid configuration parameters for this plugin are:
 
-  filename - the filename to which to write the Mutt configuration
+  filename  - the filename to which to write the Mutt configuration
+
+  unidecode - if set (to 1) this will transliterate all aliases to ascii before
+              adding them to the file
 
 =head1 METHODS
 
 App::Addex::Output::Mutt is a App::Addex::Output::ToFile subclass, and inherits its methods.
+
+=cut
+
+sub new {
+  my ($class, $arg) = @_;
+  $arg ||= {};
+
+  my $self = $class->SUPER::new($arg);
+
+  $self->{unidecode} = $arg->{unidecode};
+
+  return $self;
+}
 
 =head2 process_entry
 
@@ -50,10 +67,11 @@ This method does the actual writing of configuration to the file.
 =cut
 
 sub _aliasify {
-  my (undef, $text) = @_;
+  my ($self, $text) = @_;
 
   return unless defined $text;
   $text =~ tr/ .'//d;
+  Text::Unidecode::unidecode($text) if $self->{unidecode};
   return lc $text;
 }
 
@@ -78,8 +96,8 @@ sub process_entry {
       for grep { $_->receives } @emails;
   }
 
-  my @aliases
-    = grep { defined $_ } map { $self->_aliasify($_) } $entry->nick, $name;
+  my @aliases = 
+    map { $self->_aliasify($_) } grep { defined } $entry->nick, $name;
 
   my ($rcpt_email) = grep { $_->receives } @emails;
   $self->output("alias $_ $rcpt_email ($name)") for @aliases;
@@ -99,10 +117,13 @@ sub process_entry {
       my $label = $rcpt_emails[$i]->label;
       $label = '' unless defined $label;
       $label_count{$label}++;
-      my $alias = length $label ? "$aliases[0]-$label" : $aliases[0];
-      $alias .= "-" . ($label_count{$label} - 1) if $label_count{$label} > 1;
 
-      $self->output("alias $alias $rcpt_emails[$i] ($name)");
+      for my $id (@aliases) {
+        my $alias = length $label ? "$id-$label" : $id;
+        $alias .= "-" . ($label_count{$label} - 1) if $label_count{$label} > 1;
+
+        $self->output("alias $alias $rcpt_emails[$i] ($name)");
+      }
     }
   }
 }

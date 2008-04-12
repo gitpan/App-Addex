@@ -16,11 +16,11 @@ App::Addex - generate mail tool configuration from an address book
 
 =head1 VERSION
 
-version 0.014
+version 0.015
 
 =cut
 
-our $VERSION = '0.014';
+our $VERSION = '0.015';
 
 =head1 DESCRIPTION
 
@@ -158,7 +158,7 @@ notified of progress on your bug as I make changes.
 
 =head1 COPYRIGHT
 
-Copyright 2006-2007 Ricardo Signes, all rights reserved.
+Copyright 2006-2007 Ricardo Signes.
 
 This program is free software; you may redistribute it and/or modify it
 under the same terms as Perl itself.

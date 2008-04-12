@@ -3,6 +3,7 @@ Changes
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
+inc/Module/Install/ExtraTests.pm
 inc/Module/Install/Fetch.pm
 inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
@@ -36,5 +37,5 @@ t/output-mutt.t
 t/output-procmail.t
 t/output-spamassassin.t
 t/output-tofile.t
-t/pod-coverage.t
-t/pod.t
+xt/release/pod-coverage.t
+xt/release/pod.t

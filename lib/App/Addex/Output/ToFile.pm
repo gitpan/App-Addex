@@ -14,11 +14,11 @@ App::Addex::Output::ToFile - base class for output plugins that write to files
 
 =head1 VERSION
 
-version 0.014
+version 0.015
 
 =cut
 
-our $VERSION = '0.014';
+our $VERSION = '0.015';
 
 =head1 DESCRIPTION
 
@@ -50,6 +50,8 @@ sub new {
 
   open my $fh, '>', $arg->{filename}
     or Carp::croak "couldn't open output file $arg->{filename}: $!";
+
+  binmode($fh, ':encoding(utf8)');
 
   $self->{fh} = $fh;
 
