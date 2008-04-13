@@ -31,6 +31,10 @@ BEGIN {
 	# releases once we can make sure it won't clash with custom
 	# Module::Install extensions.
 	$VERSION = '0.71';
+
+	*inc::Module::Install::VERSION = *VERSION;
+	@inc::Module::Install::ISA     = __PACKAGE__;
+
 }
 
 
@@ -95,13 +99,19 @@ END_DIE
 
 
 
+# To save some more typing in Module::Install installers, every...
+# use inc::Module::Install
+# ...also acts as an implicit use strict.
+$^H |= strict::bits(qw(refs subs vars));
+
+
+
+
+
 use Cwd        ();
 use File::Find ();
 use File::Path ();
 use FindBin;
-
-*inc::Module::Install::VERSION = *VERSION;
-@inc::Module::Install::ISA     = __PACKAGE__;
 
 sub autoload {
 	my $self = shift;

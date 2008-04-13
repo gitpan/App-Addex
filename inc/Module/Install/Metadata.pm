@@ -271,7 +271,7 @@ sub name_from {
 	my $self = shift;
 	if (
 		Module::Install::_read($_[0]) =~ m/
-		^ \s
+		^ \s*
 		package \s*
 		([\w:]+)
 		\s* ;
@@ -366,6 +366,21 @@ sub license_from {
 
 	warn "Cannot determine license info from $_[0]\n";
 	return 'unknown';
+}
+
+sub install_script {
+	my $self = shift;
+	my $args = $self->makemaker_args;
+	my $exe  = $args->{EXE_FILES} ||= [];
+        foreach ( @_ ) {
+		if ( -f $_ ) {
+			push @$exe, $_;
+		} elsif ( -d 'script' and -f "script/$_" ) {
+			push @$exe, "script/$_";
+		} else {
+			die "Cannot find script '$_'";
+		}
+	}
 }
 
 1;
