@@ -35,7 +35,14 @@ my ($opt, $usage) = describe_options(
     { default => File::Spec->catfile(File::HomeDir->my_home, '.addex') }   ],
 );
 
-my $config = App::Addex::Config->read_file($opt->{config});
+my $ini = App::Addex::Config->read_file($opt->{config});
+
+my $config = {};
+
+for my $plugin (@$ini) {
+  my $p = $config->{ $plugin->{'=package'} || $plugin->{'=name'} } = {};
+  $p->{$_} = $plugin->{$_} for grep { $_ !~ /^=/ } keys %$plugin;
+}
 
 my $addex = App::Addex->new($config);
 

@@ -21,6 +21,7 @@ requires:
   Mixin::ExtraFields: 0.005
   Mixin::ExtraFields::Param: 0
   perl: 5.8.0
-version: 0.016
+version: 0.017
+
 
 
