@@ -2,8 +2,12 @@
 abstract: 'generate mail tool configuration from an address book'
 author:
   - 'Ricardo SIGNES, C<< <rjbs@cpan.org> >>'
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.77'
+generated_by: 'Module::Install version 0.88'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -14,8 +18,9 @@ no_index:
   directory:
     - inc
     - t
+    - xt
 requires:
-  Config::INI::MVP::Reader: 0.016
+  Config::INI::MVP::Reader: 0.023
   Config::INI::Reader: 0.005
   File::HomeDir: 0
   File::Spec: 0
@@ -27,4 +32,4 @@ requires:
 resources:
   license: http://dev.perl.org/licenses/
   repository: http://github.com/rjbs/app-addex
-version: 0.019
+version: 0.020
