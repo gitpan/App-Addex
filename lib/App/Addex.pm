@@ -16,11 +16,11 @@ App::Addex - generate mail tool configuration from an address book
 
 =head1 VERSION
 
-version 0.021
+version 0.022
 
 =cut
 
-our $VERSION = '0.021';
+our $VERSION = '0.022';
 
 =head1 DESCRIPTION
 
@@ -57,6 +57,9 @@ initialize the plugin before use.
 
 =cut
 
+# sub starting_section_name { 'classes' }
+sub mvp_multivalue_args  { qw(output plugin) }
+
 sub new {
   my ($class, $arg) = @_;
 
@@ -88,6 +91,17 @@ sub new {
   }
 
   return $self;
+}
+
+sub from_sequence {
+  my ($class, $seq) = @_;
+
+  my %arg;
+  for my $section ($seq->sections) {
+    $arg{ $section->name } = $section->payload;
+  }
+
+  $class->new(\%arg);
 }
 
 sub _initialize_plugin {

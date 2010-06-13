@@ -4,7 +4,6 @@ inc/Module/Install.pm
 inc/Module/Install/AutoManifest.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
-inc/Module/Install/ExtraTests.pm
 inc/Module/Install/Fetch.pm
 inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
@@ -13,7 +12,6 @@ inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/App/Addex.pm
 lib/App/Addex/AddressBook.pm
-lib/App/Addex/Config.pm
 lib/App/Addex/Entry.pm
 lib/App/Addex/Entry/EmailAddress.pm
 lib/App/Addex/Output.pm
@@ -29,7 +27,6 @@ README
 t/00-load.t
 t/addr-book.t
 t/basic.t
-t/config.t
 t/lib/App/Addex/AddressBook/Test.pm
 t/lib/App/Addex/FailsToLoad.pm
 t/lib/App/Addex/Multivalue.pm
@@ -38,5 +35,3 @@ t/output-mutt.t
 t/output-procmail.t
 t/output-spamassassin.t
 t/output-tofile.t
-xt/release/pod-coverage.t
-xt/release/pod.t
