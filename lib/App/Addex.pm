@@ -16,11 +16,11 @@ App::Addex - generate mail tool configuration from an address book
 
 =head1 VERSION
 
-version 0.022
+version 0.023
 
 =cut
 
-our $VERSION = '0.022';
+our $VERSION = '0.023';
 
 =head1 DESCRIPTION
 
@@ -147,7 +147,7 @@ future, as we really want an iterator, not just a list.
 
 sub entries {
   my ($self) = @_;
-  return $self->addressbook->entries;
+  return sort { $a->name cmp $b->name } $self->addressbook->entries;
 }
 
 =head2 run
