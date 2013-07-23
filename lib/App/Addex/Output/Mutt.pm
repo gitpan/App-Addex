@@ -2,50 +2,14 @@ use strict;
 use warnings;
 
 package App::Addex::Output::Mutt;
-use base qw(App::Addex::Output::ToFile);
+{
+  $App::Addex::Output::Mutt::VERSION = '0.024';
+}
+use parent qw(App::Addex::Output::ToFile);
+# ABSTRACT: generate mutt configuration from an address book
 
 use Text::Unidecode ();
 
-=head1 NAME
-
-App::Addex::Output::Mutt - generate mutt configuration from an address book
-
-=head1 VERSION
-
-version 0.023
-
-=cut
-
-our $VERSION = '0.023';
-
-=head1 DESCRIPTION
-
-This plugin produces a file that contains a list of alias lines.  The first
-email address for each entry will be aliased to the entry's aliasified nickname
-and name.  Every other address will be aliased to one of those with an
-appended, incrementing counter.  The entry's name is added as the alias's "real
-name."
-
-If the entry has a "folder" value (given as a line in the card's "notes" that
-looks like "folder: value") a save-hook is created to save mail from the entry
-to that folder and a mailboxes line is created for the folder.  If the entry
-has a "sig" value, a send-hook is created to use that signature when composing
-a message to the entry.
-
-=head1 CONFIGURATION
-
-The valid configuration parameters for this plugin are:
-
-  filename  - the filename to which to write the Mutt configuration
-
-  unidecode - if set (to 1) this will transliterate all aliases to ascii before
-              adding them to the file
-
-=head1 METHODS
-
-App::Addex::Output::Mutt is a App::Addex::Output::ToFile subclass, and inherits its methods.
-
-=cut
 
 sub new {
   my ($class, $arg) = @_;
@@ -58,13 +22,6 @@ sub new {
   return $self;
 }
 
-=head2 process_entry
-
-  $mutt_outputter->process_entry($addex, $entry);
-
-This method does the actual writing of configuration to the file.
-
-=cut
 
 sub _aliasify {
   my ($self, $text) = @_;
@@ -76,7 +33,7 @@ sub _aliasify {
 }
 
 sub _ig {
-  return $_[0] =~ /;$/ and $_[0] =~ /:/;
+  return($_[0] =~ /;$/ and $_[0] =~ /:/);
 }
 
 sub process_entry {
@@ -100,7 +57,7 @@ sub process_entry {
       for grep { $_->receives } @emails;
   }
 
-  my @aliases = 
+  my @aliases =
     map { $self->_aliasify($_) } grep { defined } $entry->nick, $name;
 
   my @name_strs = (qq{ ($name)}, q{});
@@ -137,23 +94,60 @@ sub process_entry {
   }
 }
 
+1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+App::Addex::Output::Mutt - generate mutt configuration from an address book
+
+=head1 VERSION
+
+version 0.024
+
+=head1 DESCRIPTION
+
+This plugin produces a file that contains a list of alias lines.  The first
+email address for each entry will be aliased to the entry's aliasified nickname
+and name.  Every other address will be aliased to one of those with an
+appended, incrementing counter.  The entry's name is added as the alias's "real
+name."
+
+If the entry has a "folder" value (given as a line in the card's "notes" that
+looks like "folder: value") a save-hook is created to save mail from the entry
+to that folder and a mailboxes line is created for the folder.  If the entry
+has a "sig" value, a send-hook is created to use that signature when composing
+a message to the entry.
+
+=head1 METHODS
+
+=head2 process_entry
+
+  $mutt_outputter->process_entry($addex, $entry);
+
+This method does the actual writing of configuration to the file.
+
+=head1 CONFIGURATION
+
+The valid configuration parameters for this plugin are:
+
+  filename  - the filename to which to write the Mutt configuration
+
+  unidecode - if set (to 1) this will transliterate all aliases to ascii before
+              adding them to the file
+
 =head1 AUTHOR
 
-Ricardo SIGNES, C<< <rjbs@cpan.org> >>
+Ricardo SIGNES <rjbs@cpan.org>
 
-=head1 BUGS
+=head1 COPYRIGHT AND LICENSE
 
-Please report any bugs or feature requests through the web interface at
-L<http://rt.cpan.org>.  I will be notified, and then you'll automatically be
-notified of progress on your bug as I make changes.
+This software is copyright (c) 2006 by Ricardo SIGNES.
 
-=head1 COPYRIGHT
-
-Copyright 2006-2007 Ricardo Signes, all rights reserved.
-
-This program is free software; you may redistribute it and/or modify it
-under the same terms as Perl itself.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-1;

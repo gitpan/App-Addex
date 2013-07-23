@@ -1,2 +1,13 @@
-This is the README for App-Addex.  It uses your address book to produce config
-for various unixy mail tools.
+
+
+This archive contains the distribution App-Addex,
+version 0.024:
+
+  generate mail tool configuration from an address book
+
+This software is copyright (c) 2006 by Ricardo SIGNES.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+

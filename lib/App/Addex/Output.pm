@@ -1,9 +1,43 @@
-#!/usr/bin/perl
 use strict;
 use warnings;
 
 package App::Addex::Output;
 use Carp ();
+
+
+our $VERSION = '0.023';
+
+
+sub new {
+  my ($class) = @_;
+
+  return bless {} => $class;
+}
+
+
+sub process_entry { Carp::confess "process_entry method not implemented" }
+
+
+sub finalize { }
+
+
+1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+App::Addex::Output
+
+=head1 VERSION
+
+version 0.024
+
+=head1 DESCRIPTION
+
+This is a base class for output plugins.
 
 =head1 NAME
 
@@ -13,14 +47,6 @@ App::Addex::Output - base class for output plugins
 
 version 0.023
 
-=cut
-
-our $VERSION = '0.023';
-
-=head1 DESCRIPTION
-
-This is a base class for output plugins.
-
 =head1 METHODS
 
 =head2 new
@@ -28,14 +54,6 @@ This is a base class for output plugins.
   my $output_plugin = App::Addex::Output->new(\%arg);
 
 This method returns a new outputter.
-
-=cut
-
-sub new {
-  my ($class) = @_;
-
-  return bless {} => $class;
-}
 
 =head2 process_entry
 
@@ -45,19 +63,11 @@ This method is called once for each entry to be processed.  It must be
 overridden in output plugin classes, or the base implementation will throw an
 exception when called.
 
-=cut
-
-sub process_entry { Carp::confess "process_entry method not implemented" }
-
 =head2 finalize
 
   $output_plugin->finalize;
 
 This method is called after all entries have been processed.
-
-=cut
-
-sub finalize { }
 
 =head1 AUTHOR
 
@@ -76,6 +86,15 @@ Copyright 2006-2007 Ricardo Signes, all rights reserved.
 This program is free software; you may redistribute it and/or modify it
 under the same terms as Perl itself.
 
-=cut
+=head1 AUTHOR
 
-1;
+Ricardo SIGNES <rjbs@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2006 by Ricardo SIGNES.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

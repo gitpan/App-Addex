@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 use strict;
 use warnings;
 
@@ -7,55 +6,13 @@ use warnings;
 use 5.008;
 
 package App::Addex;
+{
+  $App::Addex::VERSION = '0.024';
+}
+# ABSTRACT: generate mail tool configuration from an address book
 
 use Carp ();
 
-=head1 NAME
-
-App::Addex - generate mail tool configuration from an address book
-
-=head1 VERSION
-
-version 0.023
-
-=cut
-
-our $VERSION = '0.023';
-
-=head1 DESCRIPTION
-
-This module iterates through all the entries in an address book and produces
-configuration file based on the entries in the address book, using configured
-output plugins.
-
-It is meant to be run with the F<addex> command, which is bundled as part of
-this software distribution.
-
-=head1 METHODS
-
-B<Achtung!>  The API to this code may very well change.  It is almost certain
-to be broken into smaller pieces, to support alternate sources of entries, and
-it might just get plugins.
-
-=head2 new
-
-  my $addex = App::Addex->new(\%arg);
-
-This method returns a new Addex.
-
-Valid parameters are:
-
-  classes    - a hashref of plugin/class pairs, described below
-
-Valid keys for the F<classes> parameter are:
-
-  addressbook - the App::Addex::AddressBook subclass to use (required)
-  output      - an array of output producers (required)
-
-For each class given, an entry in C<%arg> may be given, which will be used to
-initialize the plugin before use.
-
-=cut
 
 # sub starting_section_name { 'classes' }
 sub mvp_multivalue_args  { qw(output plugin) }
@@ -116,48 +73,21 @@ sub _initialize_plugin {
   return $class->new($arg);
 }
 
-=head2 addressbook
-
-  my $abook = $addex->addressbook;
-
-This method returns the App::Addex::AddressBook object.
-
-=cut
 
 sub addressbook { $_[0]->{addressbook} }
 
-=head2 output_plugins
-
-This method returns all of the output plugin objects.
-
-=cut
 
 sub output_plugins {
   my ($self) = @_;
   return @{ $self->{output} };
 }
 
-=head2 entries
-
-This method returns all the entries to be processed.  By default it is
-delegated to the address book object.  This method may change a good bit in the
-future, as we really want an iterator, not just a list.
-
-=cut
 
 sub entries {
   my ($self) = @_;
   return sort { $a->name cmp $b->name } $self->addressbook->entries;
 }
 
-=head2 run
-
-  App::Addex->new({ ... })->run;
-
-This method performs all the work expected of an Addex: it iterates through the
-entries, invoking the output plugins for each one.
-
-=cut
 
 sub run {
   my ($self) = @_;
@@ -173,23 +103,85 @@ sub run {
   }
 }
 
+1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+App::Addex - generate mail tool configuration from an address book
+
+=head1 VERSION
+
+version 0.024
+
+=head1 DESCRIPTION
+
+B<Achtung!>  The API to this code may very well change.  It is almost certain
+to be broken into smaller pieces, to support alternate sources of entries, and
+it might just get plugins.
+
+This module iterates through all the entries in an address book and produces
+configuration file based on the entries in the address book, using configured
+output plugins.
+
+It is meant to be run with the F<addex> command, which is bundled as part of
+this software distribution.
+
+=head1 METHODS
+
+=head2 new
+
+  my $addex = App::Addex->new(\%arg);
+
+This method returns a new Addex.
+
+Valid parameters are:
+
+  classes    - a hashref of plugin/class pairs, described below
+
+Valid keys for the F<classes> parameter are:
+
+  addressbook - the App::Addex::AddressBook subclass to use (required)
+  output      - an array of output producers (required)
+
+For each class given, an entry in C<%arg> may be given, which will be used to
+initialize the plugin before use.
+
+=head2 addressbook
+
+  my $abook = $addex->addressbook;
+
+This method returns the App::Addex::AddressBook object.
+
+=head2 output_plugins
+
+This method returns all of the output plugin objects.
+
+=head2 entries
+
+This method returns all the entries to be processed.  By default it is
+delegated to the address book object.  This method may change a good bit in the
+future, as we really want an iterator, not just a list.
+
+=head2 run
+
+  App::Addex->new({ ... })->run;
+
+This method performs all the work expected of an Addex: it iterates through the
+entries, invoking the output plugins for each one.
+
 =head1 AUTHOR
 
-Ricardo SIGNES, C<< <rjbs@cpan.org> >>
+Ricardo SIGNES <rjbs@cpan.org>
 
-=head1 BUGS
+=head1 COPYRIGHT AND LICENSE
 
-Please report any bugs or feature requests through the web interface at
-L<http://rt.cpan.org>.  I will be notified, and then you'll automatically be
-notified of progress on your bug as I make changes.
+This software is copyright (c) 2006 by Ricardo SIGNES.
 
-=head1 COPYRIGHT
-
-Copyright 2006-2007 Ricardo Signes.
-
-This program is free software; you may redistribute it and/or modify it
-under the same terms as Perl itself.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-1;

@@ -1,5 +1,12 @@
-bin/addex
 Changes
+LICENSE
+MANIFEST
+META.json
+META.yml
+Makefile.PL
+README
+bin/addex
+dist.ini
 lib/App/Addex.pm
 lib/App/Addex/AddressBook.pm
 lib/App/Addex/Entry.pm
@@ -9,13 +16,9 @@ lib/App/Addex/Output/Mutt.pm
 lib/App/Addex/Output/Procmail.pm
 lib/App/Addex/Output/SpamAssassin.pm
 lib/App/Addex/Output/ToFile.pm
-LICENSE
-Makefile.PL
-MANIFEST			This list of files
-MYMETA.json
-MYMETA.yml
-README
+t/00-compile.t
 t/00-load.t
+t/000-report-versions-tiny.t
 t/addr-book.t
 t/basic.t
 t/lib/App/Addex/AddressBook/Test.pm
@@ -26,5 +29,5 @@ t/output-mutt.t
 t/output-procmail.t
 t/output-spamassassin.t
 t/output-tofile.t
-META.yml                                 Module YAML meta-data (added by MakeMaker)
-META.json                                Module JSON meta-data (added by MakeMaker)
+xt/release/changes_has_content.t
+xt/release/pod-syntax.t
