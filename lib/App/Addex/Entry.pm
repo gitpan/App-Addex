@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package App::Addex::Entry;
 {
-  $App::Addex::Entry::VERSION = '0.024';
+  $App::Addex::Entry::VERSION = '0.025';
 }
 # ABSTRACT: an entry in your address book
 
@@ -52,7 +52,7 @@ App::Addex::Entry - an entry in your address book
 
 =head1 VERSION
 
-version 0.024
+version 0.025
 
 =head1 METHODS
 

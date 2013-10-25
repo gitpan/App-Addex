@@ -3,7 +3,7 @@ use warnings;
 
 package App::Addex::Output::SpamAssassin;
 {
-  $App::Addex::Output::SpamAssassin::VERSION = '0.024';
+  $App::Addex::Output::SpamAssassin::VERSION = '0.025';
 }
 use parent qw(App::Addex::Output::ToFile);
 # ABSTRACT: generate SpamAssassin whitelists from an address book
@@ -27,7 +27,7 @@ App::Addex::Output::SpamAssassin - generate SpamAssassin whitelists from an addr
 
 =head1 VERSION
 
-version 0.024
+version 0.025
 
 =head1 DESCRIPTION
 

@@ -3,7 +3,7 @@ use warnings;
 
 package App::Addex::Output::Procmail;
 {
-  $App::Addex::Output::Procmail::VERSION = '0.024';
+  $App::Addex::Output::Procmail::VERSION = '0.025';
 }
 use parent qw(App::Addex::Output::ToFile);
 # ABSTRACT: generate procmail recipes from an address book
@@ -40,7 +40,7 @@ App::Addex::Output::Procmail - generate procmail recipes from an address book
 
 =head1 VERSION
 
-version 0.024
+version 0.025
 
 =head1 DESCRIPTION
 

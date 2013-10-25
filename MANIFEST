@@ -16,7 +16,6 @@ lib/App/Addex/Output/Mutt.pm
 lib/App/Addex/Output/Procmail.pm
 lib/App/Addex/Output/SpamAssassin.pm
 lib/App/Addex/Output/ToFile.pm
-t/00-compile.t
 t/00-load.t
 t/000-report-versions-tiny.t
 t/addr-book.t

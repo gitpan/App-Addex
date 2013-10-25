@@ -3,7 +3,7 @@ use warnings;
 
 package App::Addex::Output::ToFile;
 {
-  $App::Addex::Output::ToFile::VERSION = '0.024';
+  $App::Addex::Output::ToFile::VERSION = '0.025';
 }
 use parent 'App::Addex::Output';
 # ABSTRACT: base class for output plugins that write to files
@@ -54,7 +54,7 @@ App::Addex::Output::ToFile - base class for output plugins that write to files
 
 =head1 VERSION
 
-version 0.024
+version 0.025
 
 =head1 DESCRIPTION
 

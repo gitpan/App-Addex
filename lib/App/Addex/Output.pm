@@ -2,10 +2,11 @@ use strict;
 use warnings;
 
 package App::Addex::Output;
+{
+  $App::Addex::Output::VERSION = '0.025';
+}
 use Carp ();
-
-
-our $VERSION = '0.023';
+# ABSTRACT: base class for output plugins
 
 
 sub new {
@@ -20,7 +21,6 @@ sub process_entry { Carp::confess "process_entry method not implemented" }
 
 sub finalize { }
 
-
 1;
 
 __END__
@@ -29,23 +29,15 @@ __END__
 
 =head1 NAME
 
-App::Addex::Output
-
-=head1 VERSION
-
-version 0.024
-
-=head1 DESCRIPTION
-
-This is a base class for output plugins.
-
-=head1 NAME
-
 App::Addex::Output - base class for output plugins
 
 =head1 VERSION
 
-version 0.023
+version 0.025
+
+=head1 DESCRIPTION
+
+This is a base class for output plugins.
 
 =head1 METHODS
 
@@ -68,23 +60,6 @@ exception when called.
   $output_plugin->finalize;
 
 This method is called after all entries have been processed.
-
-=head1 AUTHOR
-
-Ricardo SIGNES, C<< <rjbs@cpan.org> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests through the web interface at
-L<http://rt.cpan.org>.  I will be notified, and then you'll automatically be
-notified of progress on your bug as I make changes.
-
-=head1 COPYRIGHT
-
-Copyright 2006-2007 Ricardo Signes, all rights reserved.
-
-This program is free software; you may redistribute it and/or modify it
-under the same terms as Perl itself.
 
 =head1 AUTHOR
 

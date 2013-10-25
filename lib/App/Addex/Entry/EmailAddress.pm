@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package App::Addex::Entry::EmailAddress;
 {
-  $App::Addex::Entry::EmailAddress::VERSION = '0.024';
+  $App::Addex::Entry::EmailAddress::VERSION = '0.025';
 }
 # ABSTRACT: an address book entry's email address
 
@@ -48,7 +48,7 @@ App::Addex::Entry::EmailAddress - an address book entry's email address
 
 =head1 VERSION
 
-version 0.024
+version 0.025
 
 =head1 SYNOPSIS
 

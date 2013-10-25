@@ -7,7 +7,7 @@ use 5.008;
 
 package App::Addex;
 {
-  $App::Addex::VERSION = '0.024';
+  $App::Addex::VERSION = '0.025';
 }
 # ABSTRACT: generate mail tool configuration from an address book
 
@@ -115,7 +115,7 @@ App::Addex - generate mail tool configuration from an address book
 
 =head1 VERSION
 
-version 0.024
+version 0.025
 
 =head1 DESCRIPTION
 

@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package App::Addex::AddressBook;
 {
-  $App::Addex::AddressBook::VERSION = '0.024';
+  $App::Addex::AddressBook::VERSION = '0.025';
 }
 # ABSTRACT: the address book that addex will consult
 
@@ -37,7 +37,7 @@ App::Addex::AddressBook - the address book that addex will consult
 
 =head1 VERSION
 
-version 0.024
+version 0.025
 
 =head1 METHODS
 

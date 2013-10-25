@@ -3,7 +3,7 @@ use warnings;
 
 package App::Addex::Output::Mutt;
 {
-  $App::Addex::Output::Mutt::VERSION = '0.024';
+  $App::Addex::Output::Mutt::VERSION = '0.025';
 }
 use parent qw(App::Addex::Output::ToFile);
 # ABSTRACT: generate mutt configuration from an address book
@@ -106,7 +106,7 @@ App::Addex::Output::Mutt - generate mutt configuration from an address book
 
 =head1 VERSION
 
-version 0.024
+version 0.025
 
 =head1 DESCRIPTION
 
