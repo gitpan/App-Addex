@@ -1,11 +1,29 @@
 use strict;
 use warnings;
 package App::Addex::Entry::EmailAddress;
-{
-  $App::Addex::Entry::EmailAddress::VERSION = '0.025';
-}
 # ABSTRACT: an address book entry's email address
-
+$App::Addex::Entry::EmailAddress::VERSION = '0.026';
+#pod =head1 SYNOPSIS
+#pod
+#pod An App::Addex::Entry::EmailAddress object represents, well, an addess for an
+#pod entry.
+#pod
+#pod =method new
+#pod
+#pod   my $address = App::Addex::Entry::EmailAddress->new("dude@example.aero");
+#pod
+#pod   my $address = App::Addex::Entry::EmailAddress->new(\%arg);
+#pod
+#pod Valid arguments are:
+#pod
+#pod   address - the contact's email address
+#pod   label   - the label for this contact (home, work, etc)
+#pod             there is no guarantee that labels are defined or unique
+#pod
+#pod   sends    - if true, this address may send mail; default: true
+#pod   receives - if true, this address may receive mail; default: true
+#pod
+#pod =cut
 
 sub new {
   my ($class, $arg) = @_;
@@ -20,6 +38,11 @@ sub new {
   bless $arg => $class;
 }
 
+#pod =method address
+#pod
+#pod This method returns the email address as a string.
+#pod
+#pod =cut
 
 use overload '""' => 'address';
 
@@ -27,11 +50,21 @@ sub address {
   $_[0]->{address}
 }
 
+#pod =method label
+#pod
+#pod This method returns the address label, if any.
+#pod
+#pod =cut
 
 sub label {
   $_[0]->{label}
 }
 
+#pod =method sends
+#pod
+#pod =method receives
+#pod
+#pod =cut
 
 sub sends    { $_[0]->{sends} }
 sub receives { $_[0]->{receives} }
@@ -42,13 +75,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 App::Addex::Entry::EmailAddress - an address book entry's email address
 
 =head1 VERSION
 
-version 0.025
+version 0.026
 
 =head1 SYNOPSIS
 

@@ -3,12 +3,15 @@ use strict;
 use warnings;
 
 package App::Addex::addex;
-{
-  $App::Addex::addex::VERSION = '0.025';
-}
 # PODNAME:  addex
 # ABSTRACT: create mail helper files for address book entries
-
+$App::Addex::addex::VERSION = '0.026';
+#pod =head1 DESCRIPTION
+#pod
+#pod The F<addex> command produces configuration for various email tools based on
+#pod your address book.  For more information, consult L<App::Addex>.
+#pod
+#pod =cut
 
 use App::Addex;
 use Config::MVP::Assembler;
@@ -39,13 +42,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 addex - create mail helper files for address book entries
 
 =head1 VERSION
 
-version 0.025
+version 0.026
 
 =head1 DESCRIPTION
 

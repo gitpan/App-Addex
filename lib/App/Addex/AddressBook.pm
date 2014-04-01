@@ -1,15 +1,24 @@
 use strict;
 use warnings;
 package App::Addex::AddressBook;
-{
-  $App::Addex::AddressBook::VERSION = '0.025';
-}
 # ABSTRACT: the address book that addex will consult
-
+$App::Addex::AddressBook::VERSION = '0.026';
 use App::Addex::Entry;
 
 use Carp ();
 
+#pod =method new
+#pod
+#pod   my $addr_book = App::Addex::AddressBook->new(\%arg);
+#pod
+#pod This method returns a new AddressBook.  Its implementation details are left up
+#pod to the subclasses, but it must accept a hashref as its first argument.
+#pod
+#pod Valid arguments are:
+#pod
+#pod   addex - required; the App::Addex object using this address book
+#pod
+#pod =cut
 
 sub new {
   my ($class, $arg) = @_;
@@ -17,9 +26,27 @@ sub new {
   bless { addex => $arg->{addex} } => $class;
 }
 
+#pod =method addex
+#pod
+#pod   my $addex = $addr_book->addex;
+#pod
+#pod This returns the App::Addex object with which the address book is associated.
+#pod
+#pod =cut
 
 sub addex { $_[0]->{addex} }
 
+#pod =method entries
+#pod
+#pod   my @entries = $addex->entries;
+#pod
+#pod This method returns the entries in the address book as L<App::Addex::Entry>
+#pod objects.  Its behavior in scalar context is not yet defined.
+#pod
+#pod This method should be implemented by a address-book-implementation-specific
+#pod subclass.
+#pod
+#pod =cut
 
 sub entries {
   Carp::confess "no behavior defined for virtual method entries";
@@ -31,13 +58,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 App::Addex::AddressBook - the address book that addex will consult
 
 =head1 VERSION
 
-version 0.025
+version 0.026
 
 =head1 METHODS
 

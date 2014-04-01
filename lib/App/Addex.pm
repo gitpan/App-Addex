@@ -6,13 +6,42 @@ use warnings;
 use 5.008;
 
 package App::Addex;
-{
-  $App::Addex::VERSION = '0.025';
-}
 # ABSTRACT: generate mail tool configuration from an address book
-
+$App::Addex::VERSION = '0.026';
 use Carp ();
 
+#pod =head1 DESCRIPTION
+#pod
+#pod B<Achtung!>  The API to this code may very well change.  It is almost certain
+#pod to be broken into smaller pieces, to support alternate sources of entries, and
+#pod it might just get plugins.
+#pod
+#pod This module iterates through all the entries in an address book and produces
+#pod configuration file based on the entries in the address book, using configured
+#pod output plugins.
+#pod
+#pod It is meant to be run with the F<addex> command, which is bundled as part of
+#pod this software distribution.
+#pod
+#pod =method new
+#pod
+#pod   my $addex = App::Addex->new(\%arg);
+#pod
+#pod This method returns a new Addex.
+#pod
+#pod Valid parameters are:
+#pod
+#pod   classes    - a hashref of plugin/class pairs, described below
+#pod
+#pod Valid keys for the F<classes> parameter are:
+#pod
+#pod   addressbook - the App::Addex::AddressBook subclass to use (required)
+#pod   output      - an array of output producers (required)
+#pod
+#pod For each class given, an entry in C<%arg> may be given, which will be used to
+#pod initialize the plugin before use.
+#pod
+#pod =cut
 
 # sub starting_section_name { 'classes' }
 sub mvp_multivalue_args  { qw(output plugin) }
@@ -73,21 +102,48 @@ sub _initialize_plugin {
   return $class->new($arg);
 }
 
+#pod =method addressbook
+#pod
+#pod   my $abook = $addex->addressbook;
+#pod
+#pod This method returns the App::Addex::AddressBook object.
+#pod
+#pod =cut
 
 sub addressbook { $_[0]->{addressbook} }
 
+#pod =method output_plugins
+#pod
+#pod This method returns all of the output plugin objects.
+#pod
+#pod =cut
 
 sub output_plugins {
   my ($self) = @_;
   return @{ $self->{output} };
 }
 
+#pod =method entries
+#pod
+#pod This method returns all the entries to be processed.  By default it is
+#pod delegated to the address book object.  This method may change a good bit in the
+#pod future, as we really want an iterator, not just a list.
+#pod
+#pod =cut
 
 sub entries {
   my ($self) = @_;
   return sort { $a->name cmp $b->name } $self->addressbook->entries;
 }
 
+#pod =method run
+#pod
+#pod   App::Addex->new({ ... })->run;
+#pod
+#pod This method performs all the work expected of an Addex: it iterates through the
+#pod entries, invoking the output plugins for each one.
+#pod
+#pod =cut
 
 sub run {
   my ($self) = @_;
@@ -109,13 +165,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 App::Addex - generate mail tool configuration from an address book
 
 =head1 VERSION
 
-version 0.025
+version 0.026
 
 =head1 DESCRIPTION
 

@@ -2,12 +2,32 @@ use strict;
 use warnings;
 
 package App::Addex::Output::Procmail;
-{
-  $App::Addex::Output::Procmail::VERSION = '0.025';
-}
-use parent qw(App::Addex::Output::ToFile);
 # ABSTRACT: generate procmail recipes from an address book
+$App::Addex::Output::Procmail::VERSION = '0.026';
+use parent qw(App::Addex::Output::ToFile);
 
+#pod =head1 DESCRIPTION
+#pod
+#pod This plugin produces a file that contains a list of procmail recipes.  For
+#pod any entry with a "folder" field, recipes are produced to deliver all mail from
+#pod its addresses to the given folder.
+#pod
+#pod Forward slashes in the folder name are converted to dots, showing my bias
+#pod toward Courier IMAP.
+#pod
+#pod =head1 CONFIGURATION
+#pod
+#pod The valid configuration parameters for this plugin are:
+#pod
+#pod   filename - the filename to which to write the procmail recipes
+#pod
+#pod =method process_entry
+#pod
+#pod   $procmail_outputter->process_entry($addex, $entry);
+#pod
+#pod This method does the actual writing of configuration to the file.
+#pod
+#pod =cut
 
 sub process_entry {
   my ($self, $addex, $entry) = @_;
@@ -34,13 +54,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 App::Addex::Output::Procmail - generate procmail recipes from an address book
 
 =head1 VERSION
 
-version 0.025
+version 0.026
 
 =head1 DESCRIPTION
 

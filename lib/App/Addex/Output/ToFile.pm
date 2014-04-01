@@ -2,14 +2,30 @@ use strict;
 use warnings;
 
 package App::Addex::Output::ToFile;
-{
-  $App::Addex::Output::ToFile::VERSION = '0.025';
-}
-use parent 'App::Addex::Output';
 # ABSTRACT: base class for output plugins that write to files
+$App::Addex::Output::ToFile::VERSION = '0.026';
+use parent 'App::Addex::Output';
 
 use Carp ();
 
+#pod =head1 DESCRIPTION
+#pod
+#pod This is a base class for output plugins that will write to files.  The
+#pod "filename" configuration parameter must be given, and must be the name of a
+#pod file to which the user can write.
+#pod
+#pod =method new
+#pod
+#pod   my $addex = App::Addex::Output::Subclass->new(\%arg);
+#pod
+#pod This method returns a new outputter.  It should be subclassed to provide a
+#pod C<process_entry> method.
+#pod
+#pod Valid arguments are:
+#pod
+#pod   filename - the file to which to write configuration (required)
+#pod
+#pod =cut
 
 sub new {
   my ($class, $arg) = @_;
@@ -28,6 +44,13 @@ sub new {
   return $self;
 }
 
+#pod =method output
+#pod
+#pod   $outputter->output($string);
+#pod
+#pod This method appends the given string to the output file, adding a newline.
+#pod
+#pod =cut
 
 sub output {
   my ($self, $line) = @_;
@@ -48,13 +71,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 App::Addex::Output::ToFile - base class for output plugins that write to files
 
 =head1 VERSION
 
-version 0.025
+version 0.026
 
 =head1 DESCRIPTION
 

@@ -2,14 +2,36 @@ use strict;
 use warnings;
 
 package App::Addex::Output::Mutt;
-{
-  $App::Addex::Output::Mutt::VERSION = '0.025';
-}
-use parent qw(App::Addex::Output::ToFile);
 # ABSTRACT: generate mutt configuration from an address book
+$App::Addex::Output::Mutt::VERSION = '0.026';
+use parent qw(App::Addex::Output::ToFile);
 
 use Text::Unidecode ();
 
+#pod =head1 DESCRIPTION
+#pod
+#pod This plugin produces a file that contains a list of alias lines.  The first
+#pod email address for each entry will be aliased to the entry's aliasified nickname
+#pod and name.  Every other address will be aliased to one of those with an
+#pod appended, incrementing counter.  The entry's name is added as the alias's "real
+#pod name."
+#pod
+#pod If the entry has a "folder" value (given as a line in the card's "notes" that
+#pod looks like "folder: value") a save-hook is created to save mail from the entry
+#pod to that folder and a mailboxes line is created for the folder.  If the entry
+#pod has a "sig" value, a send-hook is created to use that signature when composing
+#pod a message to the entry.
+#pod
+#pod =head1 CONFIGURATION
+#pod
+#pod The valid configuration parameters for this plugin are:
+#pod
+#pod   filename  - the filename to which to write the Mutt configuration
+#pod
+#pod   unidecode - if set (to 1) this will transliterate all aliases to ascii before
+#pod               adding them to the file
+#pod
+#pod =cut
 
 sub new {
   my ($class, $arg) = @_;
@@ -22,6 +44,13 @@ sub new {
   return $self;
 }
 
+#pod =method process_entry
+#pod
+#pod   $mutt_outputter->process_entry($addex, $entry);
+#pod
+#pod This method does the actual writing of configuration to the file.
+#pod
+#pod =cut
 
 sub _aliasify {
   my ($self, $text) = @_;
@@ -32,8 +61,8 @@ sub _aliasify {
   return lc $text;
 }
 
-sub _ig {
-  return($_[0] =~ /;$/ and $_[0] =~ /:/);
+sub _is_group {
+  return($_[0] =~ /;$/ && $_[0] =~ /:/ ? 1 : 0);
 }
 
 sub process_entry {
@@ -60,10 +89,10 @@ sub process_entry {
   my @aliases =
     map { $self->_aliasify($_) } grep { defined } $entry->nick, $name;
 
-  my @name_strs = (qq{ ($name)}, q{});
+  my @name_strs = (qq{"$name" }, q{});
 
   my ($rcpt_email) = grep { $_->receives } @emails;
-  $self->output("alias $_ $rcpt_email$name_strs[_ig($rcpt_email)]")
+  $self->output("alias $_ $name_strs[_is_group($rcpt_email)]<$rcpt_email>")
     for @aliases;
 
   # It's not that you're expected to -use- these aliases, but they allow
@@ -72,7 +101,7 @@ sub process_entry {
     my %label_count;
 
     if (defined(my $label = $rcpt_email->label)) {
-      $self->output("alias $_-$label $rcpt_email$name_strs[_ig($rcpt_email)]")
+      $self->output("alias $_-$label $name_strs[_is_group($rcpt_email)]<$rcpt_email>")
         for @aliases;
 
       $label_count{$label} = 1;
@@ -88,7 +117,7 @@ sub process_entry {
         my $alias = length $label ? "$id-$label" : $id;
         $alias .= "-" . ($label_count{$label} - 1) if $label_count{$label} > 1;
 
-        $self->output("alias $alias $rcpt_emails[$i]$name_strs[_ig($rcpt_emails[$i])]");
+        $self->output("alias $alias $name_strs[_is_group($rcpt_emails[$i])]<$rcpt_emails[$i]>");
       }
     }
   }
@@ -100,13 +129,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 App::Addex::Output::Mutt - generate mutt configuration from an address book
 
 =head1 VERSION
 
-version 0.025
+version 0.026
 
 =head1 DESCRIPTION
 

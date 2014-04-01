@@ -2,12 +2,28 @@ use strict;
 use warnings;
 
 package App::Addex::Output::SpamAssassin;
-{
-  $App::Addex::Output::SpamAssassin::VERSION = '0.025';
-}
-use parent qw(App::Addex::Output::ToFile);
 # ABSTRACT: generate SpamAssassin whitelists from an address book
+$App::Addex::Output::SpamAssassin::VERSION = '0.026';
+use parent qw(App::Addex::Output::ToFile);
 
+#pod =head1 DESCRIPTION
+#pod
+#pod This plugin produces a file that contains a list of SpamAssassin whitelist
+#pod declarations.
+#pod
+#pod =head1 CONFIGURATION
+#pod
+#pod The valid configuration parameters for this plugin are:
+#pod
+#pod   filename - the filename to which to write the whitelists
+#pod
+#pod =method process_entry
+#pod
+#pod   $sa_outputter->process_entry($addex, $entry);
+#pod
+#pod This method does the actual writing of configuration to the file.
+#pod
+#pod =cut
 
 sub process_entry {
   my ($self, $addex, $entry) = @_;
@@ -21,13 +37,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 App::Addex::Output::SpamAssassin - generate SpamAssassin whitelists from an address book
 
 =head1 VERSION
 
-version 0.025
+version 0.026
 
 =head1 DESCRIPTION
 
